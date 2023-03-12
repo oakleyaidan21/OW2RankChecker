@@ -77,4 +77,4 @@ outTmp/
 /test.output
 /kotlin-native/dist
 kotlin-ide/
-src/main/kotlin/util/Constants.kt
+.idea
