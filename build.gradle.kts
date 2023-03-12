@@ -10,9 +10,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
 }
 
 dependencies {
+    implementation("dev.kord:kord-core:0.8.0-M17")
     testImplementation(kotlin("test"))
 }
 
