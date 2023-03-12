@@ -6,9 +6,9 @@ import dev.kord.core.Kord
 import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.rest.builder.interaction.string
+import service.owapi.OWAPIClient
 
-class CommandInterpreter {
-    companion object {
+class CommandInterpreter(val owapiClient: OWAPIClient) {
 
         suspend fun setupCommands(kord: Kord) {
 
@@ -41,7 +41,7 @@ class CommandInterpreter {
 
             // do stuff based on command
             val commandHandler = when(command.rootName) {
-                "can_queue" -> CanQueueHandler(commandEvent)
+                "can_queue" -> CanQueueHandler(commandEvent, owapiClient)
                 else -> CommandHandler(commandEvent)
             }
 
@@ -61,5 +61,5 @@ class CommandInterpreter {
                 else -> println("message did not contain a command")
             }
         }
-    }
+
 }

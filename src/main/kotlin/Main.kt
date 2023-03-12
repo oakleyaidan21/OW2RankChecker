@@ -5,6 +5,7 @@ import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
+import service.owapi.OWAPIClient
 
 suspend fun main() {
     val token = System.getenv("BOT_TOKEN")
@@ -14,16 +15,20 @@ suspend fun main() {
         return
     }
 
+    val owAPIClient = OWAPIClient()
+
     val kord = Kord(token)
 
-    CommandInterpreter.setupCommands(kord)
+    val commandInterpreter = CommandInterpreter(owAPIClient)
+
+    commandInterpreter.setupCommands(kord)
 
     kord.on<MessageCreateEvent> { // runs every time a message is created that our bot can read
-        CommandInterpreter.onMessageCreated(this)
+        commandInterpreter.onMessageCreated(this)
     }
 
     kord.on<GuildChatInputCommandInteractionCreateEvent> {
-        CommandInterpreter.onCommandInvoked(this)
+        commandInterpreter.onCommandInvoked(this)
     }
 
     kord.login {

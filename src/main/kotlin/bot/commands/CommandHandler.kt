@@ -4,7 +4,7 @@ import dev.kord.core.behavior.interaction.response.PublicMessageInteractionRespo
 import dev.kord.core.behavior.interaction.response.edit
 import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
 
-open class CommandHandler(private val commandEvent: GuildChatInputCommandInteractionCreateEvent) {
+open class CommandHandler(val commandEvent: GuildChatInputCommandInteractionCreateEvent) {
 
     suspend fun handle() {
         val message = handleCommand()
