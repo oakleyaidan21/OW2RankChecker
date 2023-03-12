@@ -1,4 +1,6 @@
+import bot.commands.CommandInterpreter
 import dev.kord.core.Kord
+import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
 import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
@@ -14,16 +16,14 @@ suspend fun main() {
 
     val kord = Kord(token)
 
+    CommandInterpreter.setupCommands(kord)
+
     kord.on<MessageCreateEvent> { // runs every time a message is created that our bot can read
-        println("Message received! ${message.content}")
-        // ignore other bots, even ourselves. We only serve humans here!
-        if (message.author?.isBot != false) return@on
+        CommandInterpreter.onMessageCreated(this)
+    }
 
-        // check if our command is being invoked
-        if (message.content != "!ping") return@on
-
-        // all clear, give them the pong!
-        message.channel.createMessage("pong!")
+    kord.on<GuildChatInputCommandInteractionCreateEvent> {
+        CommandInterpreter.onCommandInvoked(this)
     }
 
     kord.login {
